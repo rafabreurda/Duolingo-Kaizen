@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+/* ── Variáveis ──────────────────────────────────────────────── */
+:root {
+  --cor-primaria:    #1a1a2e;
+  --cor-secundaria:  #e94560;
+  --cor-destaque:    #f5a623;
+  --cor-sucesso:     #4caf50;
+  --cor-erro:        #f44336;
+
+  /* Safe area para iPhone com notch / Dynamic Island */
+  --sat: env(safe-area-inset-top,    0px);
+  --sar: env(safe-area-inset-right,  0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left,   0px);
+}
+
+/* ── Reset & Base ───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  height: 100%;
+  /* Evita zoom automático em inputs no iOS */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  height: 100%;
+  background: var(--cor-primaria);
+  color: #ffffff;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  /* Padding para safe areas (notch, home indicator) */
+  padding-top:    var(--sat);
+  padding-right:  var(--sar);
+  padding-left:   var(--sal);
+  /* Bottom é tratado por componente (evitar corte de botões) */
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Tipografia responsiva ──────────────────────────────────── */
+h1 { font-size: clamp(1.5rem, 5vw, 2.5rem); }
+h2 { font-size: clamp(1.2rem, 4vw, 2rem); }
+h3 { font-size: clamp(1rem, 3vw, 1.5rem); }
+
+/* ── Inputs — evita zoom iOS ────────────────────────────────── */
+input, select, textarea {
+  font-size: 16px !important; /* iOS só não faz zoom se >= 16px */
+  border-radius: 0;            /* Remove border-radius padrão iOS */
+}
+
+/* ── Scrollbar invisível ────────────────────────────────────── */
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; }
+
+/* ── Safe area para painéis fixos no bottom ─────────────────── */
+.safe-bottom {
+  padding-bottom: max(1rem, calc(var(--sab) + 1rem));
+}
+
+/* ── Utilitário: tela cheia no mobile sem barra do browser ──── */
+.screen-height {
+  min-height: 100dvh; /* dvh = dynamic viewport height */
+}
+
+/* ── Touch targets mínimos ──────────────────────────────────── */
+button, a, [role="button"] {
+  min-height: 44px;
+  min-width:  44px;
+  cursor:     pointer;
+}
+
+/* ── Animação suave no standalone PWA ──────────────────────── */
+@media (display-mode: standalone) {
+  body {
+    /* Cor de fundo na splash screen */
+    background-color: var(--cor-primaria);
+  }
+}
